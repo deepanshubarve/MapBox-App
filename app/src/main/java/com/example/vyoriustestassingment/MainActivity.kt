@@ -152,7 +152,7 @@ class MainActivity : AppCompatActivity() {
             R.drawable.red_marker
         )?.let {
             val annotationApi = mapView.annotations
-            val pointAnnotationManager = annotationApi.createPointAnnotationManager(mapView!!)
+            val pointAnnotationManager = annotationApi.createPointAnnotationManager()
             val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
                 .withPoint(com.mapbox.geojson.Point.fromLngLat(18.06, 59.31))
             pointAnnotationManager?.create(pointAnnotationOptions)
