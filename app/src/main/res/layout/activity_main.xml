@@ -1,18 +1,41 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <com.mapbox.maps.MapView
-        android:id="@+id/mapView"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:mapbox_locationComponentEnabled="true"
-        app:mapbox_locationComponentLocationPuck="location_puck_2_d"
-        app:mapbox_locationComponentLocationPuckLocationPuck2DTopImage="@drawable/mapbox_user_icon_shadow"
-        app:mapbox_locationComponentLocationPuckLocationPuck2DBearingImage="@drawable/ic_launcher_background"
-        app:mapbox_locationComponentLocationPuckLocationPuck2DShadowImage="@drawable/common_google_signin_btn_icon_dark"
-        tools:context=".examples.LocationComponentActivity" />
+        android:orientation="vertical">
 
-</FrameLayout>
+
+        <com.mapbox.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="618dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="5dp"
+            app:mapbox_locationComponentEnabled="true"
+            app:mapbox_locationComponentLocationPuck="location_puck_2_d"
+            app:mapbox_locationComponentLocationPuckLocationPuck2DBearingImage="@drawable/ic_launcher_background"
+            app:mapbox_locationComponentLocationPuckLocationPuck2DShadowImage="@drawable/common_google_signin_btn_icon_dark"
+            app:mapbox_locationComponentLocationPuckLocationPuck2DTopImage="@drawable/mapbox_user_icon_shadow"
+            tools:context=".examples.LocationComponentActivity">
+
+        </com.mapbox.maps.MapView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/mapAddbtn"
+            android:layout_width="88dp"
+            android:layout_height="61dp"
+            android:layout_marginLeft="300dp"
+            android:layout_marginTop="0dp"
+            android:clickable="true"
+            android:contentDescription="@string/MapAddBtn"
+            android:padding="10dp"
+            android:src="@drawable/"/>
+
+    </LinearLayout>
+</layout>

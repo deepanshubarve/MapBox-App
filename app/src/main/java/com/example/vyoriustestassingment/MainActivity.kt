@@ -6,10 +6,14 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import com.example.vyoriustestassingment.databinding.ActivityMainBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.ImageHolder
@@ -18,7 +22,6 @@ import com.mapbox.maps.Style
 import com.mapbox.maps.extension.style.expressions.dsl.generated.interpolate
 import com.mapbox.maps.plugin.LocationPuck2D
 import com.mapbox.maps.plugin.PuckBearing
-import com.mapbox.maps.plugin.annotation.AnnotationConfig
 import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
@@ -34,6 +37,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var locationPermissionHelper: LocationPermissionHelper
+    lateinit var binding: ActivityMainBinding
+    private lateinit var dialog: BottomSheetDialog
 
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
@@ -56,18 +61,29 @@ class MainActivity : AppCompatActivity() {
 
         override fun onMoveEnd(detector: MoveGestureDetector) {}
     }
-    private lateinit var mapView: MapView
+     lateinit var mapView: MapView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mapView = MapView(this)
         setContentView(mapView)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         locationPermissionHelper = LocationPermissionHelper(WeakReference(this))
         locationPermissionHelper.checkPermissions{
             onMapReady()
-            addAnnotationToMap()
+
+            var btnshow : Button =findViewById(R.id.mapAddbtn)
+            btnshow.setOnClickListener{
+                val view : View = layoutInflater.inflate(R.layout.fragment_select_mapstyle,null)
+                val dialog = BottomSheetDialog(this)
+                dialog.setContentView(view)
+                dialog.show()
+            }
+
         }
     }
+
 
     private fun onMapReady() {
         mapView.mapboxMap.setCamera(
@@ -148,8 +164,7 @@ class MainActivity : AppCompatActivity() {
             R.drawable.red_marker
         )?.let {
             val annotationApi = mapView?.annotations
-            val pointAnnotationManager = annotationApi?.createPointAnnotationManager(
-                AnnotationConfig()!!)
+            val pointAnnotationManager = annotationApi?.createPointAnnotationManager()
 // Set options for the resulting symbol layer.
             val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
 // Define a geographic coordinate.
