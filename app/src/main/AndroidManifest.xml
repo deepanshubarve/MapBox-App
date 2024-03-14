@@ -16,12 +16,12 @@
         android:theme="@style/Theme.VyoriusTestAssingment"
         tools:targetApi="31">
         <activity
-            android:name=".Splash_Screen"
+            android:name=".MainActivity"
             android:exported="false" />
 
-        <activity
-            android:name=".MainActivity"
 
+        <activity
+            android:name=".Splash_Screen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

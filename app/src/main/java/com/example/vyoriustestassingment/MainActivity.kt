@@ -6,14 +6,10 @@ import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import com.example.vyoriustestassingment.databinding.ActivityMainBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.ImageHolder
@@ -37,8 +33,6 @@ class MainActivity : AppCompatActivity() {
 
 
     private lateinit var locationPermissionHelper: LocationPermissionHelper
-    lateinit var binding: ActivityMainBinding
-    private lateinit var dialog: BottomSheetDialog
 
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
@@ -67,21 +61,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mapView = MapView(this)
         setContentView(mapView)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         locationPermissionHelper = LocationPermissionHelper(WeakReference(this))
         locationPermissionHelper.checkPermissions{
             onMapReady()
+            addAnnotationToMap()
 
-            var btnshow : Button =findViewById(R.id.mapAddbtn)
-            btnshow.setOnClickListener{
-                val view : View = layoutInflater.inflate(R.layout.fragment_select_mapstyle,null)
-                val dialog = BottomSheetDialog(this)
-                dialog.setContentView(view)
-                dialog.show()
             }
 
-        }
     }
 
 
@@ -92,12 +78,14 @@ class MainActivity : AppCompatActivity() {
                 .build()
         )
         mapView.mapboxMap.loadStyle(
-            Style.MAPBOX_STREETS
+            Style.STANDARD
         ) {
             initLocationComponent()
             setupGesturesListener()
         }
     }
+
+
 
     private fun setupGesturesListener() {
         mapView.gestures.addOnMoveListener(onMoveListener)
@@ -110,8 +98,8 @@ class MainActivity : AppCompatActivity() {
             puckBearingEnabled = true
             enabled = true
             locationPuck = LocationPuck2D(
-                bearingImage = ImageHolder.from(R.drawable.ic_launcher_foreground),
-                shadowImage = ImageHolder.from(R.drawable.ic_launcher_background),
+                bearingImage = ImageHolder.from(R.drawable.location),
+                shadowImage = ImageHolder.from(R.drawable.smallgps),
                 scaleExpression = interpolate {
                     linear()
                     zoom()
@@ -158,21 +146,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addAnnotationToMap() {
-// Create an instance of the Annotation API and get the PointAnnotationManager.
+
         bitmapFromDrawableRes(
             this@MainActivity,
             R.drawable.red_marker
         )?.let {
-            val annotationApi = mapView?.annotations
-            val pointAnnotationManager = annotationApi?.createPointAnnotationManager()
-// Set options for the resulting symbol layer.
+            val annotationApi = mapView.annotations
+            val pointAnnotationManager = annotationApi.createPointAnnotationManager(annotationConfig = null)
             val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
-// Define a geographic coordinate.
                 .withPoint(com.mapbox.geojson.Point.fromLngLat(18.06, 59.31))
-// Specify the bitmap you assigned to the point annotation
-// The bitmap will be added to map style automatically.
-                .withIconImage(it)
-// Add the resulting pointAnnotation to the map.
             pointAnnotationManager?.create(pointAnnotationOptions)
         }
     }
