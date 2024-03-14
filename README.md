@@ -1,5 +1,4 @@
-
-Mapbox Android Integration Project 🗺️
+<h1 align="center">Mapbox Android Integration Project 🗺️</h1>
 This project is built using Kotlin and XML to integrate the Mapbox SDK into an Android application. The core functionalities of this project include:
 
 Mapbox SDK Integration: Integration of the Mapbox SDK into the Android project to enable seamless map functionalities.
